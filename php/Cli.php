@@ -63,7 +63,20 @@ if (!generateReleaseNote($commits, $outFile, $templatePath, $twigFileSystemBaseP
 }
 
 function printWelcomeMessage () {
-    echo 'Willkommen bei Git Notes 1.0'.PHP_EOL;
+    echo ' _____ _ _     _   _       _'.PHP_EOL;
+    echo '|  __ (_) |   | \ | |     | |'.PHP_EOL;
+    echo '| |  \/_| |_  |  \| | ___ | |_ ___  ___'.PHP_EOL;
+    echo '| | __| | __| | . ` |/ _ \| __/ _ \/ __|'.PHP_EOL;
+    echo '| |_\ \ | |_  | |\  | (_) | ||  __/\__ \\'.PHP_EOL;
+    echo ' \____/_|\__| \_| \_/\___/ \__\___||___/'.PHP_EOL.PHP_EOL;
+
+    echo 'Willkommen bei Git Notes 1.0'.PHP_EOL.PHP_EOL;
+
+    echo 'Verwendung: gitnotes --from <path> --to <path> --repository <path>'.PHP_EOL.PHP_EOL;
+
+    echo 'Parameter:'.PHP_EOL;
+    echo '--from    der Branch von dem die Unterschiede festgestellt werden sollen'.PHP_EOL;
+    echo '--to      der Branch/Commit/Tag zu dem die Releasenotes erstellt werden sollen'.PHP_EOL;
 }
 
 /**
