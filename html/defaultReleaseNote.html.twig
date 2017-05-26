@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Releasenotes</title>
+    <style>{{ source('vendor/twbs/bootstrap/dist/css/bootstrap.css') }}
+    {{ source('css/default.css') }}</style>
+</head>
+
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <h1 class="text-center">Releasenotes v1.0.0</h1>
+
+            {% for commit in commits %}
+                <div class="commit panel panel-primary commitColor">
+                    <div class="panel-heading"><h3 class="panel-title"><b>{{ commit.authorName }}</b> {{ commit.hash }} - hinzugefügt am
+                            <b>{{ commit.date }}</b></h3></div>
+                    <div class="panel-body">{{ commit.message }}</div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>
+</body>
+
+</html>

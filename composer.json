@@ -1,5 +1,11 @@
 {
     "require": {
-        "twig/twig": "^1.33"
+        "twig/twig": "^1.33",
+        "twbs/bootstrap": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "php\\": "php/"
+        }
     }
 }
