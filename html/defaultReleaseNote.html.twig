@@ -18,7 +18,7 @@
                 <div class="commit panel panel-primary commitColor">
                     <div class="panel-heading"><h3 class="panel-title"><b>{{ commit.authorName }}</b> {{ commit.hash }} - hinzugefügt am
                             <b>{{ commit.date }}</b></h3></div>
-                    <div class="panel-body">{{ commit.message }}</div>
+                    <div class="panel-body">{{ commit.message }} {{ commit.messageBody }}</div>
                 </div>
             {% endfor %}
         </div>

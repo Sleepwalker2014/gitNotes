@@ -33,7 +33,7 @@ class GitLogParser {
             throw new CommandException();
         }
 
-        $gitLogOutput = shell_exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<endline>>"');
+        $gitLogOutput = shell_exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<newline>>%b<<endline>>"');
 
         $gitLogErrorCode = null;
         $errorOutput = null;
@@ -56,7 +56,8 @@ class GitLogParser {
         $author = trim($commitLines[1]);
         $date = trim($commitLines[2]);
         $message = trim($commitLines[3]);
+        $messageBody = trim($commitLines[4]);
 
-        return new CommitObject($author, $author, $date, $hash, $message);
+        return new CommitObject($author, $author, $date, $hash, $message, $messageBody);
     }
 }

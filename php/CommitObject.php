@@ -13,6 +13,7 @@ class CommitObject {
     private $date;
     private $hash;
     private $message;
+    private $messageBody;
 
     /**
      * CommitObject constructor.
@@ -22,17 +23,20 @@ class CommitObject {
      * @param string $date
      * @param string $hash
      * @param string $message
+     * @param string $messageBody
      */
     public function __construct ($authorName,
                                  $authorEmail,
                                  $date,
                                  $hash,
-                                 $message) {
+                                 $message,
+                                 $messageBody) {
         $this->authorName = $authorName;
         $this->authorEmail = $authorEmail;
         $this->date = $date;
         $this->hash = $hash;
         $this->message = $message;
+        $this->messageBody = $messageBody;
     }
 
     /**
@@ -68,5 +72,13 @@ class CommitObject {
      */
     public function getMessage () {
         return $this->message;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessageBody ()
+    {
+        return $this->messageBody;
     }
 }
