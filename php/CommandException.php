@@ -15,9 +15,13 @@ class CommandException extends Exception {
 
     /**
      * CommandException constructor.
+     *
+     * @param string $gitLogErrorCode
      */
-    public function __construct () {
-        $this->code = 1;
-        $this->message = 'An Invalid Command has been executed';
+    public function __construct ($gitLogErrorCode) {
+        echo $gitLogErrorCode;
+        if ($gitLogErrorCode === 128) {
+            $this->message = 'Wechseln Sie in ein GIT-Verzeichnis oder geben sie mittels --repository ein valides GIT-Verzeichnis an';
+        }
     }
 }

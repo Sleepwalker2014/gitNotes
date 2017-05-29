@@ -29,9 +29,7 @@ $outFile = '/tmp/releaseNotes.html';
 $templatePath ='/html/defaultReleaseNote.html.twig';
 
 if (!$repositoryParameter) {
-    echo 'Bitte geben Sie mit dem Parameter --repository den Pfad zu ihrem Git-Repository an.'.PHP_EOL;
-    printWelcomeMessage();
-    exit(1);
+    $repositoryParameter = getcwd();
 }
 
 if (!$fromParameter) {
@@ -58,11 +56,11 @@ if ($inFileParameter) {
 try {
     $commits = [];
     if (!$commits = $gitLogParser->getCommits($repositoryParameter, $fromParameter, $toParameter)) {
-        echo 'Es gibt keine Unterschiedlichen Commits zwischen '.$fromParameter.' und '.$toParameter.PHP_EOL;
+        echo 'Es gibt keine unterschiedlichen Commits zwischen '.$fromParameter.' und '.$toParameter.PHP_EOL;
         exit(0);
     }
 } catch (CommandException $e) {
-    echo 'Die Parameter scheinen keine gültigen Tag/Branch/Commithashes zu sein.'.PHP_EOL;
+    echo $e->getMessage().PHP_EOL;
 }
 
 if (!generateReleaseNote($commits, $outFile, $templatePath, $twigFileSystemBasePath)) {
@@ -86,7 +84,7 @@ function printWelcomeMessage () {
     echo 'Verwendung:';
 
     setTextColor(WHITE);
-    echo ' gitnotes --from <path> --to <path> --repository <path> [--in <path>] [--out <path>]'.PHP_EOL.PHP_EOL;
+    echo ' gitnotes --from <path> --to <path>  [--repository <path>] [--in <path>] [--out <path>]'.PHP_EOL.PHP_EOL;
 
     setTextColor(ORANGE);
     echo 'Parameter:'.PHP_EOL;
@@ -105,7 +103,7 @@ function printWelcomeMessage () {
     setTextColor(CYAN);
     echo '  --repository  ';
     setTextColor(WHITE);
-    echo 'Pfad zu dem Git-Repository, aus welchem die Releasenotes erstellt werden sollen'.PHP_EOL;
+    echo 'Pfad zu dem Git-Repository, aus welchem die Releasenotes erstellt werden sollen (optional) (Standard: aktuelles Arbeitsverzeichnis)'.PHP_EOL;
 
     setTextColor(CYAN);
     echo '  --in  ';
@@ -140,7 +138,6 @@ function generateReleaseNote ($commits, $outputPath, $templatePath, $twigFileSys
  * @return boolean
  */
 function writeReleaseNotesToFile ($fileContent, $filePath) {
-    echo $filePath;
     return file_put_contents($filePath, $fileContent);
 }
 

@@ -30,7 +30,7 @@ class GitLogParser {
         exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<endline>>" 2> /dev/null', $errorOutput, $gitLogErrorCode);
 
         if ($gitLogErrorCode) {
-            throw new CommandException();
+            throw new CommandException($gitLogErrorCode);
         }
 
         $gitLogOutput = shell_exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<newline>>%b<<endline>>"');
