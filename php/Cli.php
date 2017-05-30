@@ -19,6 +19,7 @@ $gitLogParser = new GitLogParser();
 
 $outFileParameter = getParameter('--out', $argv);
 $inFileParameter = getParameter('--in', $argv);
+$filterParameter = getParameter('--filter', $argv);
 $repositoryParameter = getParameter('--repository', $argv);
 $fromParameter = getParameter('--from', $argv);
 $toParameter = getParameter('--to', $argv);
@@ -33,13 +34,13 @@ if (!$repositoryParameter) {
 }
 
 if (!$fromParameter) {
-    echo 'Bitte geben Sie mit dem Parameter --from den Branch/Tag/Commit an, von dem aus die Release Notes erstellt werden sollen.'.PHP_EOL;
+    echo 'Bitte geben Sie mit dem Parameter --from den Branch/Tag/Commit an, von dem aus die release notes erstellt werden sollen.'.PHP_EOL;
     printWelcomeMessage();
     exit(1);
 }
 
 if (!$toParameter) {
-    echo 'Bitte geben Sie mit dem Parameter --to den Branch/Tag/Commit an, für den Sie die Release Notes erstellen möchten.'.PHP_EOL;
+    echo 'Bitte geben Sie mit dem Parameter --to den Branch/Tag/Commit an, für den Sie die release notes erstellen möchten.'.PHP_EOL;
     printWelcomeMessage();
     exit(1);
 }
@@ -55,7 +56,7 @@ if ($inFileParameter) {
 
 try {
     $commits = [];
-    if (!$commits = $gitLogParser->getCommits($repositoryParameter, $fromParameter, $toParameter)) {
+    if (!$commits = $gitLogParser->getCommits($repositoryParameter, $fromParameter, $toParameter, $filterParameter)) {
         echo 'Es gibt keine unterschiedlichen Commits zwischen '.$fromParameter.' und '.$toParameter.PHP_EOL;
         exit(0);
     }
@@ -98,28 +99,33 @@ function printWelcomeMessage () {
     setTextColor(CYAN);
     echo '  --to          ';
     setTextColor(WHITE);
-    echo 'Branch/Commit/Tag, zu dem die Releasenotes erstellt werden sollen'.PHP_EOL;
+    echo 'Branch/Commit/Tag, zu dem die release notes erstellt werden sollen'.PHP_EOL;
+
+    setTextColor(CYAN);
+    echo '  --filter      ';
+    setTextColor(WHITE);
+    echo 'Ein regulärer Ausdruck, welcher alle Commits herausfiltert, die nicht diesem Ausdruck entsprechen (optional)'.PHP_EOL;
 
     setTextColor(CYAN);
     echo '  --repository  ';
     setTextColor(WHITE);
-    echo 'Pfad zu dem Git-Repository, aus welchem die Releasenotes erstellt werden sollen (optional) (Standard: aktuelles Arbeitsverzeichnis)'.PHP_EOL;
+    echo 'Pfad zu dem Git-Repository, aus welchem die release notes erstellt werden sollen (optional) (Standard: aktuelles Arbeitsverzeichnis)'.PHP_EOL;
 
     setTextColor(CYAN);
     echo '  --in  ';
     setTextColor(WHITE);
-    echo '        Pfad zu einem .twig Template, welches als Vorlage für die Releasenotes gilt'.PHP_EOL;
+    echo '        Pfad zu einem .twig Template, welches als Vorlage für die release notes gilt (optional)'.PHP_EOL;
 
     setTextColor(CYAN);
     echo '  --out  ';
     setTextColor(WHITE);
-    echo '       Dateiname (Pfad) für die generierten Releasenotes'.PHP_EOL;
+    echo '       Dateiname (Pfad) für die generierten release notes (optional)'.PHP_EOL;
 }
 
 /**
  * @param CommitObject[] $commits
- * @param                $outputPath
- * @param                $templatePath
+ * @param string         $outputPath
+ * @param string         $templatePath
  * @param string         $twigFileSystemBasePath
  *
  * @return boolean

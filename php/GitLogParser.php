@@ -18,25 +18,33 @@ class GitLogParser {
     }
 
     /**
-     * @param String $repositoryPath
-     * @param String $fromBranch
-     * @param String $toBranch
+     * @param String      $repositoryPath
+     * @param String      $fromBranch
+     * @param String      $toBranch
+     *
+     * @param String|null $filter
      *
      * @return CommitObject[] $commits
+     * @throws CommandException
      */
-    public function getCommits ($repositoryPath, $fromBranch, $toBranch) {
+    public function getCommits ($repositoryPath, $fromBranch, $toBranch, $filter = null) {
+        $command = 'git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<endline>>"';
         $commits = [];
 
-        exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<endline>>" 2> /dev/null', $errorOutput, $gitLogErrorCode);
+        if (!empty($filter)) {
+            $command .= ' --grep='.$filter;
+        }
+
+        $gitLogErrorCode = null;
+        $errorOutput = null;
+
+        exec($command.' > /dev/null', $errorOutput, $gitLogErrorCode);
 
         if ($gitLogErrorCode) {
             throw new CommandException($gitLogErrorCode);
         }
 
-        $gitLogOutput = shell_exec('git -C '.$repositoryPath.' log '.$toBranch.' --not '.$fromBranch.' --date=short --no-merges --pretty=format:"%h<<newline>>%x09%an<<newline>>%x09%ad<<newline>>%x09%s<<newline>>%b<<endline>>"');
-
-        $gitLogErrorCode = null;
-        $errorOutput = null;
+        $gitLogOutput = shell_exec($command);
 
         $splittedWholeCommits = explode("<<endline>>", $gitLogOutput);
 
