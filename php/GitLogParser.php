@@ -32,7 +32,7 @@ class GitLogParser {
         $commits = [];
 
         if (!empty($filter)) {
-            $command .= ' --grep='.$filter;
+            $command .= ' --grep='.escapeshellarg($filter);
         }
 
         $gitLogErrorCode = null;
