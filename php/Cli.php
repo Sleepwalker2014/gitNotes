@@ -133,8 +133,8 @@ function printWelcomeMessage () {
 function generateReleaseNote ($commits, $outputPath, $templatePath, $twigFileSystemBasePath = '/') {
     $loader = new Twig_Loader_Filesystem($twigFileSystemBasePath);
     $twig = new Twig_Environment($loader);
-
-    return writeReleaseNotesToFile($twig->render($templatePath, ['commits' => $commits]), $outputPath);
+   // echo print_r(retreiveRedmineTicket(),true);
+    return writeReleaseNotesToFile($twig->render($templatePath, ['commits' => $commits, 'redmine' => retreiveRedmineTicket()]), $outputPath);
 }
 
 /**
@@ -186,4 +186,10 @@ function getFileNameFromPath ($filePath) {
  */
 function setTextColor ($textColor) {
     echo $textColor;
+}
+
+function retreiveRedmineTicket () {
+    $redmine = new RedmineParser('http://192.168.18.60/redmine', "df3cfc883d54e50e2e67a0461de5219a2fc61305");
+
+    return $redmine->retreiveTicketAsArray();
 }
