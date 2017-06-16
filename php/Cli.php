@@ -134,7 +134,7 @@ function generateReleaseNote ($commits, $outputPath, $templatePath, $twigFileSys
     $loader = new Twig_Loader_Filesystem($twigFileSystemBasePath);
     $twig = new Twig_Environment($loader);
    // echo print_r(retreiveRedmineTicket(),true);
-    return writeReleaseNotesToFile($twig->render($templatePath, ['commits' => $commits, 'redmine' => retreiveRedmineTicket()]), $outputPath);
+    return writeReleaseNotesToFile($twig->render($templatePath, ['commits' => $commits]), $outputPath);
 }
 
 /**

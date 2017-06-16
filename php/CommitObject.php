@@ -14,29 +14,36 @@ class CommitObject {
     private $hash;
     private $message;
     private $messageBody;
+    /**
+     * @var mixed[]|null
+     */
+    private $redmineTicket;
 
     /**
      * CommitObject constructor.
      *
-     * @param string $authorName
-     * @param string $authorEmail
-     * @param string $date
-     * @param string $hash
-     * @param string $message
-     * @param string $messageBody
+     * @param string       $authorName
+     * @param string       $authorEmail
+     * @param string       $date
+     * @param string       $hash
+     * @param string       $message
+     * @param string       $messageBody
+     * @param mixed[]|null $redmineTicket
      */
     public function __construct ($authorName,
                                  $authorEmail,
                                  $date,
                                  $hash,
                                  $message,
-                                 $messageBody) {
+                                 $messageBody,
+                                 $redmineTicket = null) {
         $this->authorName = $authorName;
         $this->authorEmail = $authorEmail;
         $this->date = $date;
         $this->hash = $hash;
         $this->message = $message;
         $this->messageBody = $messageBody;
+        $this->redmineTicket = $redmineTicket;
     }
 
     /**
@@ -80,5 +87,13 @@ class CommitObject {
     public function getMessageBody ()
     {
         return $this->messageBody;
+    }
+
+    /**
+     * @return mixed[]|null
+     */
+    public function getRedmineTicket ()
+    {
+        return $this->redmineTicket;
     }
 }
